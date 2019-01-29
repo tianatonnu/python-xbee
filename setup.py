@@ -9,8 +9,10 @@ from codecs import open
 from os import path
 
 
+# DEPENDENCIES = (
+#     'pyserial>=3',
+# )
 DEPENDENCIES = (
-    'pyserial>=3',
 )
 
 here = path.abspath(path.dirname(__file__))
@@ -30,9 +32,9 @@ setup(
     keywords=['xbee', 'IOT', 'wireless', 'radio frequency'],
     license='Mozilla Public License 2.0 (MPL 2.0)',
     python_requires='>=3',
-    install_requires=[
-        'pyserial>=3',
-    ],
+    # install_requires=[
+    #     'pyserial>=3',
+    # ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',

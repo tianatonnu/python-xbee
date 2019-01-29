@@ -61,7 +61,7 @@ class ATCommPacket(XBeeAPIPacket):
         if frame_id < 0 or frame_id > 255:
             raise ValueError("Frame id must be between 0 and 255.")
 
-        super().__init__(ApiFrameType.AT_COMMAND)
+        super(ATCommPacket, self).__init__(ApiFrameType.AT_COMMAND)
         self.__command = command
         self.__parameter = parameter
         self._frame_id = frame_id
@@ -218,7 +218,7 @@ class ATCommQueuePacket(XBeeAPIPacket):
         if frame_id < 0 or frame_id > 255:
             raise ValueError("Frame id must be between 0 and 255.")
 
-        super().__init__(ApiFrameType.AT_COMMAND_QUEUE)
+        super(ATCommQueuePacket, self).__init__(ApiFrameType.AT_COMMAND_QUEUE)
         self.__command = command
         self.__parameter = parameter
         self._frame_id = frame_id
@@ -377,7 +377,7 @@ class ATCommResponsePacket(XBeeAPIPacket):
         if len(command) != 2:
             raise ValueError("Invalid command " + command)
 
-        super().__init__(ApiFrameType.AT_COMMAND_RESPONSE)
+        super(ATCommResponsePacket, self).__init__(ApiFrameType.AT_COMMAND_RESPONSE)
         self._frame_id = frame_id
         self.__command = command
         self.__response_status = response_status
@@ -564,7 +564,7 @@ class ReceivePacket(XBeeAPIPacket):
            | :class:`.XBee64BitAddress`
            | :class:`.XBeeAPIPacket`
         """
-        super().__init__(ApiFrameType.RECEIVE_PACKET)
+        super(ReceivePacket, self).__init__(ApiFrameType.RECEIVE_PACKET)
         self.__x64bit_addr = x64bit_addr
         self.__x16bit_addr = x16bit_addr
         self.__receive_options = receive_options
@@ -796,7 +796,7 @@ class RemoteATCommandPacket(XBeeAPIPacket):
         if len(command) != 2:
             raise ValueError("Invalid command " + command)
 
-        super().__init__(ApiFrameType.REMOTE_AT_COMMAND_REQUEST)
+        super(RemoteATCommandPacket, self).__init__(ApiFrameType.REMOTE_AT_COMMAND_REQUEST)
         self._frame_id = frame_id
         self.__x64bit_addr = x64bit_addr
         self.__x16bit_addr = x16bit_addr
@@ -1053,7 +1053,7 @@ class RemoteATCommandResponsePacket(XBeeAPIPacket):
         if len(command) != 2:
             raise ValueError("Invalid command " + command)
 
-        super().__init__(ApiFrameType.REMOTE_AT_COMMAND_RESPONSE)
+        super(RemoteATCommandResponsePacket, self).__init__(ApiFrameType.REMOTE_AT_COMMAND_RESPONSE)
         self._frame_id = frame_id
         self.__x64bit_addr = x64bit_addr
         self.__x16bit_addr = x16bit_addr
@@ -1326,7 +1326,7 @@ class TransmitPacket(XBeeAPIPacket):
         if frame_id > 255 or frame_id < 0:
             raise ValueError("frame_id must be between 0 and 255.")
 
-        super().__init__(ApiFrameType.TRANSMIT_REQUEST)
+        super(TransmitPacket, self).__init__(ApiFrameType.TRANSMIT_REQUEST)
         self._frame_id = frame_id
         self.__x64bit_addr = x64bit_addr
         self.__x16bit_addr = x16bit_addr
@@ -1576,7 +1576,7 @@ class TransmitStatusPacket(XBeeAPIPacket):
         if frame_id < 0 or frame_id > 255:
             raise ValueError("Frame id must be between 0 and 255.")
 
-        super().__init__(ApiFrameType.TRANSMIT_STATUS)
+        super(TransmitStatusPacket, self).__init__(ApiFrameType.TRANSMIT_STATUS)
         self._frame_id = frame_id
         self.__x16bit_addr = x16bit_addr
         self.__transmit_retry_count = transmit_retry_count
@@ -1779,7 +1779,7 @@ class ModemStatusPacket(XBeeAPIPacket):
            | :class:`.ModemStatus`
            | :class:`.XBeeAPIPacket`
         """
-        super().__init__(ApiFrameType.MODEM_STATUS)
+        super(ModemStatusPacket, self).__init__(ApiFrameType.MODEM_STATUS)
         self.__modem_status = modem_status
 
     @staticmethod
@@ -1909,7 +1909,7 @@ class IODataSampleRxIndicatorPacket(XBeeAPIPacket):
            | :class:`.XBee64BitAddress`
            | :class:`.XBeeAPIPacket`
         """
-        super().__init__(ApiFrameType.IO_DATA_SAMPLE_RX_INDICATOR)
+        super(IODataSampleRxIndicatorPacket, self).__init__(ApiFrameType.IO_DATA_SAMPLE_RX_INDICATOR)
         self.__x64bit_addr = x64bit_addr
         self.__x16bit_addr = x16bit_addr
         self.__receive_options = receive_options
@@ -2252,7 +2252,7 @@ class ExplicitAddressingPacket(XBeeAPIPacket):
         if profile_id < 0 or profile_id > 0xFFFF:
             raise ValueError("Profile id must be between 0 and 0xFFFF.")
 
-        super().__init__(ApiFrameType.EXPLICIT_ADDRESSING)
+        super(ExplicitAddressingPacket, self).__init__(ApiFrameType.EXPLICIT_ADDRESSING)
         self._frame_id = frame_id
         self.__x64_addr = x64bit_addr
         self.__x16_addr = x16bit_addr
@@ -2614,7 +2614,7 @@ class ExplicitRXIndicatorPacket(XBeeAPIPacket):
         if profile_id < 0 or profile_id > 0xFFFF:
             raise ValueError("Profile id must be between 0 and 0xFFFF.")
 
-        super().__init__(ApiFrameType.EXPLICIT_RX_INDICATOR)
+        super(ExplicitRXIndicatorPacket, self).__init__(ApiFrameType.EXPLICIT_RX_INDICATOR)
         self.__x64bit_addr = x64bit_addr
         self.__x16bit_addr = x16bit_addr
         self.__source_endpoint = source_endpoint

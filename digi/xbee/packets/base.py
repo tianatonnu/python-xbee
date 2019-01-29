@@ -318,7 +318,7 @@ class XBeeAPIPacket(XBeePacket):
            | :class:`.ApiFrameType`
            | :class:`.XBeePacket`
         """
-        super().__init__()
+        super(XBeeAPIPacket, self).__init__()
         # Check the type of the API frame type.
         if isinstance(api_frame_type, ApiFrameType):
             self._frame_type = api_frame_type
@@ -500,7 +500,7 @@ class GenericXBeePacket(XBeeAPIPacket):
            | :mod:`.factory`
            | :class:`.XBeeAPIPacket`
         """
-        super().__init__(api_frame_type=ApiFrameType.GENERIC)
+        super(GenericXBeePacket, self).__init__(api_frame_type=ApiFrameType.GENERIC)
         self.__rf_data = rf_data
 
     @staticmethod
@@ -586,7 +586,7 @@ class UnknownXBeePacket(XBeeAPIPacket):
            | :mod:`.factory`
            | :class:`.XBeeAPIPacket`
         """
-        super().__init__(api_frame_type=api_frame)
+        super(UnknownXBeePacket, self).__init__(api_frame_type=api_frame)
         self.__rf_data = rf_data
 
     @staticmethod
