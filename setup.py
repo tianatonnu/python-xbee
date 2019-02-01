@@ -12,7 +12,8 @@ from os import path
 DEPENDENCIES = (
     'pyserial>=3',
     'ipaddress>=1',
-    'enum34>=1'
+    'enum34>=1',
+    'futures>=3'
 )
 
 here = path.abspath(path.dirname(__file__))
@@ -22,7 +23,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
  
 setup(
     name='ngcp-xbee',
-    version='1.2',
+    version='1.3',
     description='Digi XBee Python library, compatible with Python 2',
     long_description=long_description,
     url='https://github.com/tianatonnu/python-xbee.git',
@@ -35,7 +36,8 @@ setup(
     install_requires=[
         'pyserial>=3',
         'ipaddress>=1',
-        'enum34>=1'
+        'enum34>=1',
+        'futures>=3'
     ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
