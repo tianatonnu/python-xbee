@@ -11,6 +11,7 @@ from os import path
 
 DEPENDENCIES = (
     'pyserial>=3',
+    'ipaddress>=1'
 )
 
 here = path.abspath(path.dirname(__file__))
