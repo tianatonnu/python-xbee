@@ -1,21 +1,21 @@
 Digi XBee Python library
 ========================
 
-This project contains the source code of the XBee Python library, an
+This project is a version of the XBee Python library, an
 easy-to-use API developed in Python that allows you to interact with Digi
 International's `XBee <https://www.digi.com/xbee>`_ radio frequency (RF)
-modules.
+modules. It has been edited to be compatible with Python 2.
 
-This source has been contributed by Digi International.
+This source has been contributed by Digi International, with modifications by Tiana Ton Nu.
 
 
 Installation
 ------------
 
-You can install XBee Python library using `pip
+You can install this version of the XBee Python library using `pip
 <https://pip.pypa.io/en/stable/>`_::
 
-    $ pip install digi-xbee
+    $ pip install ngcp-xbee
 
 
 Install from Source
