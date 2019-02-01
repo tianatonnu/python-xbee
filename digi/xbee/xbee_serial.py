@@ -107,7 +107,7 @@ class XBeeSerialPort(Serial):
         """
         read_bytes = bytearray(self.read(num_bytes))
         if len(read_bytes) != num_bytes:
-            raise digi.xbee.exception.TimeoutException()
+            raise xbee.exception.TimeoutException()
         return read_bytes
 
     def read_existing(self):

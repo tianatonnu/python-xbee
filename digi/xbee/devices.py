@@ -18,7 +18,7 @@ from ipaddress import IPv4Address
 import threading
 import time
 
-import my_serial
+import xbee_serial
 from serial.serialutil import SerialTimeoutException
 
 from digi.xbee.packets.cellular import TXSMSPacket
@@ -44,8 +44,8 @@ from digi.xbee.exception import XBeeException, TimeoutException, InvalidOperatin
     ATCommandException, OperationNotSupportedException
 from digi.xbee.io import IOSample, IOMode
 from digi.xbee.reader import PacketListener, PacketReceived, DeviceDiscovered, DiscoveryProcessFinished
-from digi.xbee.my_serial import FlowControl
-from digi.xbee.my_serial import XBeeSerialPort
+from digi.xbee.xbee_serial import FlowControl
+from digi.xbee.xbee_serial import XBeeSerialPort
 from functools import wraps
 
 
@@ -1530,8 +1530,8 @@ class XBeeDevice(AbstractXBeeDevice):
     Response that will be receive if the attempt to enter in at command mode goes well.
     """
 
-    def __init__(self, port, baud_rate, data_bits=my_serial.EIGHTBITS, stop_bits=my_serial.STOPBITS_ONE,
-                 parity=my_serial.PARITY_NONE, flow_control=FlowControl.NONE,
+    def __init__(self, port, baud_rate, data_bits=xbee_serial.EIGHTBITS, stop_bits=xbee_serial.STOPBITS_ONE,
+                 parity=xbee_serial.PARITY_NONE, flow_control=FlowControl.NONE,
                  _sync_ops_timeout=AbstractXBeeDevice._DEFAULT_TIMEOUT_SYNC_OPERATIONS):
         """
         Class constructor. Instantiates a new :class:`.XBeeDevice` with the provided parameters.
@@ -2787,7 +2787,7 @@ class Raw802Device(XBeeDevice):
            | :class:`.XBeeDevice`
            | :meth:`.XBeeDevice.__init__`
         """
-        super(XBeeDevice, self).__init__(port, baud_rate)
+        super(Raw802Device, self).__init__(port, baud_rate)
 
     def open(self):
         """
@@ -2800,7 +2800,7 @@ class Raw802Device(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice.open`
         """
-        super(XBeeDevice, self).open()
+        super(Raw802Device, self).open()
         if not self.is_remote() and self.get_protocol() != XBeeProtocol.RAW_802_15_4:
             raise XBeeException("Invalid protocol.")
 
@@ -2831,7 +2831,7 @@ class Raw802Device(XBeeDevice):
         .. seealso::
            | :meth:`.AbstractXBeeDevice._get_ai_status`
         """
-        return super(XBeeDevice, self)._get_ai_status()
+        return super(Raw802Device, self)._get_ai_status()
 
     def send_data_64(self, x64addr, data, transmit_options=TransmitOptions.NONE.value):
         """
@@ -2840,7 +2840,7 @@ class Raw802Device(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice.send_data_64`
         """
-        return super(XBeeDevice, self)._send_data_64(x64addr, data, transmit_options)
+        return super(Raw802Device, self)._send_data_64(x64addr, data, transmit_options)
 
     def send_data_async_64(self, x64addr, data, transmit_options=TransmitOptions.NONE.value):
         """
@@ -2849,7 +2849,7 @@ class Raw802Device(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice.send_data_async_64`
         """
-        super(XBeeDevice, self)._send_data_async_64(x64addr, data, transmit_options)
+        super(Raw802Device, self)._send_data_async_64(x64addr, data, transmit_options)
 
     def send_data_16(self, x16addr, data, transmit_options=TransmitOptions.NONE.value):
         """
@@ -2858,7 +2858,7 @@ class Raw802Device(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice._send_data_16`
         """
-        return super(XBeeDevice, self)._send_data_16(x16addr, data, transmit_options)
+        return super(Raw802Device, self)._send_data_16(x16addr, data, transmit_options)
 
     def send_data_async_16(self, x16addr, data, transmit_options=TransmitOptions.NONE.value):
         """
@@ -2867,7 +2867,7 @@ class Raw802Device(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice._send_data_async_16`
         """
-        super(XBeeDevice, self)._send_data_async_16(x16addr, data, transmit_options)
+        super(Raw802Device, self)._send_data_async_16(x16addr, data, transmit_options)
 
 
 class DigiMeshDevice(XBeeDevice):
@@ -2892,7 +2892,7 @@ class DigiMeshDevice(XBeeDevice):
            | :class:`.XBeeDevice`
            | :meth:`.XBeeDevice.__init__`
         """
-        super(XBeeDevice, self).__init__(port, baud_rate)
+        super(DigiMeshDevice, self).__init__(port, baud_rate)
 
     def open(self):
         """
@@ -2905,7 +2905,7 @@ class DigiMeshDevice(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice.open`
         """
-        super(XBeeDevice, self).open()
+        super(DigiMeshDevice, self).open()
         if self.get_protocol() != XBeeProtocol.DIGI_MESH:
             raise XBeeException("Invalid protocol.")
 
@@ -2936,7 +2936,7 @@ class DigiMeshDevice(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice.send_data_64`
         """
-        return super(XBeeDevice, self)._send_data_64(x64addr, data, transmit_options)
+        return super(DigiMeshDevice, self)._send_data_64(x64addr, data, transmit_options)
 
     def send_data_async_64(self, x64addr, data, transmit_options=TransmitOptions.NONE.value):
         """
@@ -2945,7 +2945,7 @@ class DigiMeshDevice(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice.send_data_async_64`
         """
-        super(XBeeDevice, self)._send_data_async_64(x64addr, data, transmit_options)
+        super(DigiMeshDevice, self)._send_data_async_64(x64addr, data, transmit_options)
 
     def read_expl_data(self, timeout=None):
         """
@@ -2954,7 +2954,7 @@ class DigiMeshDevice(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice.read_expl_data`
         """
-        return super(XBeeDevice, self)._read_expl_data(timeout=timeout)
+        return super(DigiMeshDevice, self)._read_expl_data(timeout=timeout)
 
     def read_expl_data_from(self, remote_xbee_device, timeout=None):
         """
@@ -2963,7 +2963,7 @@ class DigiMeshDevice(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice.read_expl_data_from`
         """
-        return super(XBeeDevice, self)._read_expl_data_from(remote_xbee_device, timeout=timeout)
+        return super(DigiMeshDevice, self)._read_expl_data_from(remote_xbee_device, timeout=timeout)
 
     def send_expl_data(self, remote_xbee_device, data, src_endpoint, dest_endpoint,
                        cluster_id, profile_id, transmit_options=TransmitOptions.NONE.value):
@@ -2973,7 +2973,7 @@ class DigiMeshDevice(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice.send_expl_data`
         """
-        return super(XBeeDevice, self)._send_expl_data(remote_xbee_device, data, src_endpoint, dest_endpoint, cluster_id,
+        return super(DigiMeshDevice, self)._send_expl_data(remote_xbee_device, data, src_endpoint, dest_endpoint, cluster_id,
                                        profile_id, transmit_options)
 
     def send_expl_data_broadcast(self, data, src_endpoint, dest_endpoint, cluster_id, profile_id,
@@ -2984,7 +2984,7 @@ class DigiMeshDevice(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice._send_expl_data_broadcast`
         """
-        return super(XBeeDevice, self)._send_expl_data_broadcast(data, src_endpoint, dest_endpoint, cluster_id, profile_id,
+        return super(DigiMeshDevice, self)._send_expl_data_broadcast(data, src_endpoint, dest_endpoint, cluster_id, profile_id,
                                                  transmit_options)
 
     def send_expl_data_async(self, remote_xbee_device, data, src_endpoint, dest_endpoint,
@@ -2995,7 +2995,7 @@ class DigiMeshDevice(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice.send_expl_data_async`
         """
-        super(XBeeDevice, self)._send_expl_data_async(remote_xbee_device, data, src_endpoint,
+        super(DigiMeshDevice, self)._send_expl_data_async(remote_xbee_device, data, src_endpoint,
                                       dest_endpoint, cluster_id, profile_id, transmit_options)
 
 
@@ -3021,7 +3021,7 @@ class DigiPointDevice(XBeeDevice):
            | :class:`.XBeeDevice`
            | :meth:`.XBeeDevice.__init__`
         """
-        super(XBeeDevice, self).__init__(port, baud_rate)
+        super(DigiPointDevice, self).__init__(port, baud_rate)
 
     def open(self):
         """
@@ -3034,7 +3034,7 @@ class DigiPointDevice(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice.open`
         """
-        super(XBeeDevice, self).open()
+        super(DigiPointDevice, self).open()
         if self.get_protocol() != XBeeProtocol.DIGI_POINT:
             raise XBeeException("Invalid protocol.")
 
@@ -3065,7 +3065,7 @@ class DigiPointDevice(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice.send_data_64_16`
         """
-        return super(XBeeDevice, self)._send_data_64_16(x64addr, x16addr, data, transmit_options)
+        return super(DigiPointDevice, self)._send_data_64_16(x64addr, x16addr, data, transmit_options)
 
     def send_data_async_64_16(self, x64addr, x16addr, data, transmit_options=TransmitOptions.NONE.value):
         """
@@ -3074,7 +3074,7 @@ class DigiPointDevice(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice.send_data_async_64_16`
         """
-        super(XBeeDevice, self)._send_data_async_64_16(x64addr, x16addr, data, transmit_options)
+        super(DigiPointDevice, self)._send_data_async_64_16(x64addr, x16addr, data, transmit_options)
 
     def read_expl_data(self, timeout=None):
         """
@@ -3083,7 +3083,7 @@ class DigiPointDevice(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice.read_expl_data`
         """
-        return super(XBeeDevice, self)._read_expl_data(timeout=timeout)
+        return super(DigiPointDevice, self)._read_expl_data(timeout=timeout)
 
     def read_expl_data_from(self, remote_xbee_device, timeout=None):
         """
@@ -3092,7 +3092,7 @@ class DigiPointDevice(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice.read_expl_data_from`
         """
-        return super(XBeeDevice, self)._read_expl_data_from(remote_xbee_device, timeout=timeout)
+        return super(DigiPointDevice, self)._read_expl_data_from(remote_xbee_device, timeout=timeout)
 
     def send_expl_data(self, remote_xbee_device, data, src_endpoint, dest_endpoint,
                        cluster_id, profile_id, transmit_options=TransmitOptions.NONE.value):
@@ -3102,7 +3102,7 @@ class DigiPointDevice(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice.send_expl_data`
         """
-        return super(XBeeDevice, self)._send_expl_data(remote_xbee_device, data, src_endpoint, dest_endpoint, cluster_id,
+        return super(DigiPointDevice, self)._send_expl_data(remote_xbee_device, data, src_endpoint, dest_endpoint, cluster_id,
                                        profile_id, transmit_options)
 
     def send_expl_data_broadcast(self, data, src_endpoint, dest_endpoint, cluster_id, profile_id,
@@ -3113,7 +3113,7 @@ class DigiPointDevice(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice._send_expl_data_broadcast`
         """
-        return super(XBeeDevice, self)._send_expl_data_broadcast(data, src_endpoint, dest_endpoint, cluster_id, profile_id,
+        return super(DigiPointDevice, self)._send_expl_data_broadcast(data, src_endpoint, dest_endpoint, cluster_id, profile_id,
                                                  transmit_options)
 
     def send_expl_data_async(self, remote_xbee_device, data, src_endpoint, dest_endpoint,
@@ -3124,7 +3124,7 @@ class DigiPointDevice(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice.send_expl_data_async`
         """
-        super(XBeeDevice, self)._send_expl_data_async(remote_xbee_device, data, src_endpoint,
+        super(DigiPointDevice, self)._send_expl_data_async(remote_xbee_device, data, src_endpoint,
                                       dest_endpoint, cluster_id, profile_id, transmit_options)
 
 
@@ -3150,7 +3150,7 @@ class ZigBeeDevice(XBeeDevice):
            | :class:`.XBeeDevice`
            | :meth:`XBeeDevice.__init__`
         """
-        super(XBeeDevice, self).__init__(port, baud_rate)
+        super(ZigBeeDevice, self).__init__(port, baud_rate)
 
     def open(self):
         """
@@ -3163,7 +3163,7 @@ class ZigBeeDevice(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice.open`
         """
-        super(XBeeDevice, self).open()
+        super(ZigBeeDevice, self).open()
         if self.get_protocol() != XBeeProtocol.ZIGBEE:
             raise XBeeException("Invalid protocol.")
 
@@ -3194,7 +3194,7 @@ class ZigBeeDevice(XBeeDevice):
         .. seealso::
            | :meth:`.AbstractXBeeDevice._get_ai_status`
         """
-        return super(XBeeDevice, self)._get_ai_status()
+        return super(ZigBeeDevice, self)._get_ai_status()
 
     def force_disassociate(self):
         """
@@ -3203,7 +3203,7 @@ class ZigBeeDevice(XBeeDevice):
         .. seealso::
            | :meth:`.AbstractXBeeDevice._force_disassociate`
         """
-        super(XBeeDevice, self)._force_disassociate()
+        super(ZigBeeDevice, self)._force_disassociate()
 
     def send_data_64_16(self, x64addr, x16addr, data, transmit_options=TransmitOptions.NONE.value):
         """
@@ -3212,7 +3212,7 @@ class ZigBeeDevice(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice.send_data_64_16`
         """
-        return super(XBeeDevice, self)._send_data_64_16(x64addr, x16addr, data, transmit_options)
+        return super(ZigBeeDevice, self)._send_data_64_16(x64addr, x16addr, data, transmit_options)
 
     def send_data_async_64_16(self, x64addr, x16addr, data, transmit_options=TransmitOptions.NONE.value):
         """
@@ -3221,7 +3221,7 @@ class ZigBeeDevice(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice.send_data_async_64_16`
         """
-        super(XBeeDevice, self)._send_data_async_64_16(x64addr, x16addr, data, transmit_options)
+        super(ZigBeeDevice, self)._send_data_async_64_16(x64addr, x16addr, data, transmit_options)
 
     def read_expl_data(self, timeout=None):
         """
@@ -3230,7 +3230,7 @@ class ZigBeeDevice(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice._read_expl_data`
         """
-        return super(XBeeDevice, self)._read_expl_data(timeout=timeout)
+        return super(ZigBeeDevice, self)._read_expl_data(timeout=timeout)
 
     def read_expl_data_from(self, remote_xbee_device, timeout=None):
         """
@@ -3239,7 +3239,7 @@ class ZigBeeDevice(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice._read_expl_data_from`
         """
-        return super(XBeeDevice, self)._read_expl_data_from(remote_xbee_device, timeout=timeout)
+        return super(ZigBeeDevice, self)._read_expl_data_from(remote_xbee_device, timeout=timeout)
 
     def send_expl_data(self, remote_xbee_device, data, src_endpoint, dest_endpoint,
                        cluster_id, profile_id, transmit_options=TransmitOptions.NONE.value):
@@ -3249,7 +3249,7 @@ class ZigBeeDevice(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice._send_expl_data`
         """
-        return super(XBeeDevice, self)._send_expl_data(remote_xbee_device, data, src_endpoint, dest_endpoint, cluster_id,
+        return super(ZigBeeDevice, self)._send_expl_data(remote_xbee_device, data, src_endpoint, dest_endpoint, cluster_id,
                                        profile_id, transmit_options)
 
     def send_expl_data_broadcast(self, data, src_endpoint, dest_endpoint, cluster_id, profile_id,
@@ -3260,7 +3260,7 @@ class ZigBeeDevice(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice._send_expl_data_broadcast`
         """
-        return super(XBeeDevice, self)._send_expl_data_broadcast(data, src_endpoint, dest_endpoint, cluster_id, profile_id,
+        return super(ZigBeeDevice, self)._send_expl_data_broadcast(data, src_endpoint, dest_endpoint, cluster_id, profile_id,
                                                  transmit_options)
 
     def send_expl_data_async(self, remote_xbee_device, data, src_endpoint, dest_endpoint,
@@ -3271,7 +3271,7 @@ class ZigBeeDevice(XBeeDevice):
         .. seealso::
            | :meth:`.XBeeDevice.send_expl_data_async`
         """
-        super(XBeeDevice, self)._send_expl_data_async(remote_xbee_device, data, src_endpoint,
+        super(ZigBeeDevice, self)._send_expl_data_async(remote_xbee_device, data, src_endpoint,
                                       dest_endpoint, cluster_id, profile_id, transmit_options)
 
     @AbstractXBeeDevice._before_send_method
@@ -3382,7 +3382,7 @@ class IPDevice(XBeeDevice):
            | :class:`.XBeeDevice`
            | :meth:`XBeeDevice.__init__`
         """
-        super(XBeeDevice, self).__init__(port, baud_rate)
+        super(IPDevice, self).__init__(port, baud_rate)
 
         self._ip_addr = None
         self._source_port = self.__DEFAULT_SOURCE_PORT
@@ -3394,7 +3394,7 @@ class IPDevice(XBeeDevice):
         .. seealso::
            | :meth:`.AbstractXBeeDevice.read_device_info`
         """
-        super(XBeeDevice, self).read_device_info()
+        super(IPDevice, self).read_device_info()
 
         # Read the module's IP address.
         resp = self.get_parameter("MY")
@@ -3907,7 +3907,7 @@ class CellularDevice(IPDevice):
            | :class:`.XBeeDevice`
            | :meth:`XBeeDevice.__init__`
         """
-        super(XBeeDevice, self).__init__(port, baud_rate)
+        super(CellularDevice, self).__init__(port, baud_rate)
 
         self._imei_addr = None
 
@@ -3922,7 +3922,7 @@ class CellularDevice(IPDevice):
         .. seealso::
            | :meth:`.XBeeDevice.open`
         """
-        super(XBeeDevice, self).open()
+        super(CellularDevice, self).open()
         if self.get_protocol() not in [XBeeProtocol.CELLULAR, XBeeProtocol.CELLULAR_NBIOT]:
             raise XBeeException("Invalid protocol.")
 
@@ -3942,7 +3942,7 @@ class CellularDevice(IPDevice):
         .. seealso::
            | :meth:`.XBeeDevice.read_device _info`
         """
-        super(XBeeDevice, self).read_device_info()
+        super(CellularDevice, self).read_device_info()
 
         # Generate the IMEI address.
         self._imei_addr = XBeeIMEIAddress(self._64bit_addr.address)
@@ -4193,7 +4193,7 @@ class LPWANDevice(CellularDevice):
            | :class:`.XBeeDevice`
            | :meth:`XBeeDevice.__init__`
         """
-        super(XBeeDevice, self).__init__(port, baud_rate)
+        super(LPWANDevice, self).__init__(port, baud_rate)
 
     def send_ip_data(self, ip_addr, dest_port, protocol, data, close_socket=False):
         """
@@ -4216,7 +4216,7 @@ class LPWANDevice(CellularDevice):
         if protocol != IPProtocol.UDP:
             raise ValueError("This protocol only supports UDP transmissions")
 
-        super(XBeeDevice, self).send_ip_data(ip_addr, dest_port, protocol, data)
+        super(LPWANDevice, self).send_ip_data(ip_addr, dest_port, protocol, data)
 
     def send_ip_data_async(self, ip_addr, dest_port, protocol, data, close_socket=False):
         """
@@ -4239,7 +4239,7 @@ class LPWANDevice(CellularDevice):
         if protocol != IPProtocol.UDP:
             raise ValueError("This protocol only supports UDP transmissions")
 
-        super(XBeeDevice, self).send_ip_data_async(ip_addr, dest_port, protocol, data)
+        super(LPWANDevice, self).send_ip_data_async(ip_addr, dest_port, protocol, data)
 
     def add_sms_callback(self, callback):
         """
@@ -4301,7 +4301,7 @@ class NBIoTDevice(LPWANDevice):
            | :class:`.XBeeDevice`
            | :meth:`XBeeDevice.__init__`
         """
-        super(XBeeDevice, self).__init__(port, baud_rate)
+        super(LPWANDevice, self).__init__(port, baud_rate)
 
         self._imei_addr = None
 
@@ -4316,7 +4316,7 @@ class NBIoTDevice(LPWANDevice):
         .. seealso::
            | :meth:`.XBeeDevice.open`
         """
-        super(XBeeDevice, self).open()
+        super(LPWANDevice, self).open()
         if self.get_protocol() != XBeeProtocol.CELLULAR_NBIOT:
             raise XBeeException("Invalid protocol.")
 
@@ -4355,7 +4355,7 @@ class WiFiDevice(IPDevice):
            | :class:`.XBeeDevice`
            | :meth:`XBeeDevice.__init__`
         """
-        super(XBeeDevice, self).__init__(port, baud_rate)
+        super(WiFiDevice, self).__init__(port, baud_rate)
         self.__ap_timeout = self.__DEFAULT_ACCESS_POINT_TIMEOUT
         self.__scanning_aps = False
         self.__scanning_aps_error = False
@@ -4371,7 +4371,7 @@ class WiFiDevice(IPDevice):
         .. seealso::
            | :meth:`.XBeeDevice.open`
         """
-        super(XBeeDevice, self).open()
+        super(WiFiDevice, self).open()
         if self.get_protocol() != XBeeProtocol.XBEE_WIFI:
             raise XBeeException("Invalid protocol.")
 
@@ -4940,7 +4940,8 @@ class RemoteXBeeDevice(AbstractXBeeDevice):
            | :class:`XBee64BitAddress`
            | :class:`XBeeDevice`
         """
-        super(XBeeDevice, self).__init__(local_xbee_device=local_xbee_device,
+        self._log_handler = None
+        super(RemoteXBeeDevice, self).__init__(local_xbee_device=local_xbee_device,
                          serial_port=local_xbee_device.serial_port)
 
         self._local_xbee_device = local_xbee_device
@@ -4955,7 +4956,7 @@ class RemoteXBeeDevice(AbstractXBeeDevice):
         .. seealso::
            | :meth:`.AbstractXBeeDevice.get_parameter`
         """
-        return super(XBeeDevice, self).get_parameter(parameter)
+        return super(RemoteXBeeDevice, self).get_parameter(parameter)
 
     def set_parameter(self, parameter, value):
         """
@@ -4964,7 +4965,7 @@ class RemoteXBeeDevice(AbstractXBeeDevice):
         .. seealso::
            | :meth:`.AbstractXBeeDevice.set_parameter`
         """
-        super(XBeeDevice, self).set_parameter(parameter, value)
+        super(RemoteXBeeDevice, self).set_parameter(parameter, value)
 
     def is_remote(self):
         """
@@ -5062,7 +5063,7 @@ class RemoteRaw802Device(RemoteXBeeDevice):
         if local_xbee_device.get_protocol() != XBeeProtocol.RAW_802_15_4:
             raise XBeeException("Invalid protocol.")
 
-        super(XBeeDevice, self).__init__(local_xbee_device, x64bit_addr, x16bit_addr, node_id=node_id)
+        super(RemoteRaw802Device, self).__init__(local_xbee_device, x64bit_addr, x16bit_addr, node_id=node_id)
 
     def get_protocol(self):
         """
@@ -5095,7 +5096,7 @@ class RemoteRaw802Device(RemoteXBeeDevice):
         .. seealso::
            | :meth:`.AbstractXBeeDevice._get_ai_status`
         """
-        return super(XBeeDevice, self)._get_ai_status()
+        return super(RemoteRaw802Device, self)._get_ai_status()
 
 
 class RemoteDigiMeshDevice(RemoteXBeeDevice):
@@ -5124,7 +5125,7 @@ class RemoteDigiMeshDevice(RemoteXBeeDevice):
         if local_xbee_device.get_protocol() != XBeeProtocol.DIGI_MESH:
             raise XBeeException("Invalid protocol.")
 
-        super(XBeeDevice, self).__init__(local_xbee_device, x64bit_addr, None, node_id)
+        super(RemoteDigiMeshDevice, self).__init__(local_xbee_device, x64bit_addr, None, node_id)
 
     def get_protocol(self):
         """
@@ -5162,7 +5163,7 @@ class RemoteDigiPointDevice(RemoteXBeeDevice):
         if local_xbee_device.get_protocol() != XBeeProtocol.DIGI_POINT:
             raise XBeeException("Invalid protocol.")
 
-        super(XBeeDevice, self).__init__(local_xbee_device, x64bit_addr, None, node_id)
+        super(RemoteDigiPointDevice, self).__init__(local_xbee_device, x64bit_addr, None, node_id)
 
     def get_protocol(self):
         """
@@ -5202,7 +5203,7 @@ class RemoteZigBeeDevice(RemoteXBeeDevice):
         if local_xbee_device.get_protocol() != XBeeProtocol.ZIGBEE:
             raise XBeeException("Invalid protocol.")
 
-        super(XBeeDevice, self).__init__(local_xbee_device, x64bit_addr, x16bit_addr, node_id)
+        super(RemoteZigBeeDevice, self).__init__(local_xbee_device, x64bit_addr, x16bit_addr, node_id)
 
     def get_protocol(self):
         """
@@ -5220,7 +5221,7 @@ class RemoteZigBeeDevice(RemoteXBeeDevice):
         .. seealso::
            | :meth:`.AbstractXBeeDevice._get_ai_status`
         """
-        return super(XBeeDevice, self)._get_ai_status()
+        return super(RemoteZigBeeDevice, self)._get_ai_status()
 
     def force_disassociate(self):
         """
@@ -5229,7 +5230,7 @@ class RemoteZigBeeDevice(RemoteXBeeDevice):
         .. seealso::
            | :meth:`.AbstractXBeeDevice._force_disassociate`
         """
-        super(XBeeDevice, self)._force_disassociate()
+        super(RemoteZigBeeDevice, self)._force_disassociate()
 
 
 class XBeeNetwork(object):
@@ -6006,7 +6007,7 @@ class ZigBeeNetwork(XBeeNetwork):
         Raises:
             ValueError: if ``device`` is ``None``.
         """
-        super(XBeeDevice, self).__init__(device)
+        super(ZigBeeNetwork, self).__init__(device)
 
 
 class Raw802Network(XBeeNetwork):
@@ -6027,7 +6028,7 @@ class Raw802Network(XBeeNetwork):
         Raises:
             ValueError: if ``device`` is ``None``.
         """
-        super(XBeeDevice, self).__init__(device)
+        super(Raw802Network, self).__init__(device)
 
 
 class DigiMeshNetwork(XBeeNetwork):
@@ -6048,7 +6049,7 @@ class DigiMeshNetwork(XBeeNetwork):
         Raises:
             ValueError: if ``device`` is ``None``.
         """
-        super(XBeeDevice, self).__init__(device)
+        super(DigiMeshNetwork, self).__init__(device)
 
 
 class DigiPointNetwork(XBeeNetwork):
@@ -6069,4 +6070,4 @@ class DigiPointNetwork(XBeeNetwork):
         Raises:
             ValueError: if ``device`` is ``None``.
         """
-        super(XBeeDevice, self).__init__(device)
+        super(DigiPointNetwork, self).__init__(device)
