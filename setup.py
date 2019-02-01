@@ -11,7 +11,8 @@ from os import path
 
 DEPENDENCIES = (
     'pyserial>=3',
-    'ipaddress>=1'
+    'ipaddress>=1',
+    'enum34>=1'
 )
 
 here = path.abspath(path.dirname(__file__))
@@ -33,7 +34,8 @@ setup(
     python_requires='>=2',
     install_requires=[
         'pyserial>=3',
-        'ipaddress>=1'
+        'ipaddress>=1',
+        'enum34>=1'
     ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
