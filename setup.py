@@ -21,7 +21,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
  
 setup(
     name='ngcp-xbee',
-    version='1.1',
+    version='1.2',
     description='Digi XBee Python library, compatible with Python 2',
     long_description=long_description,
     url='https://github.com/tianatonnu/python-xbee.git',
